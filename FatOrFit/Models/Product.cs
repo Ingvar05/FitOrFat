@@ -20,7 +20,7 @@ namespace FatOrFit.Models
            Custom
         }
         [Required]
-        public ProductOrigin Origin { get; set; } = ProductOrigin.Basic;
+        public ProductOrigin Origin { get; set; } = ProductOrigin.Custom;
         [Range(0, double.MaxValue)]
         public double Calories { get; set; } = 0;
         [Range(0, double.MaxValue)]
@@ -29,6 +29,7 @@ namespace FatOrFit.Models
         public double Fats { get; set; } = 0;
         [Range(0, double.MaxValue)]
         public double Carbohydrates { get; set; } = 0;
+        public bool IsActive { get; set; } = true;
    
         public string? UserProfileId { get; set; }
         public UserProfile? Profile { get; set; }

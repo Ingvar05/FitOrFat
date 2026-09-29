@@ -13,7 +13,7 @@ namespace FatOrFit.Models
         public TimeOnly Time { get; set; } = TimeOnly.FromDateTime(DateTime.Now);
         [Required]
         public int DaybookId { get; set; } = 0;
-        public Daybook Day { get; set; } = null!;
+        public Daybook Daybook { get; set; } = null!;
         public List<DishInMeal> Dishes { get; set; } = new List<DishInMeal>();
         public List<ProductInMeal> Products { get; set; } = new List<ProductInMeal>();
         public double Calories => Products.Sum(p => p.Product!.Calories * (p.Amount / p.Product!.BaseAmount)) + Dishes.Sum(d => d.Dish!.CaloriesPer100g * (d.Amount / 100));

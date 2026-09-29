@@ -46,6 +46,7 @@ namespace FatOrFit.Models
         public List<Weight> Weights { get; set; } = new List<Weight>();
         public List<Daybook> Daybooks { get; set; } = new List<Daybook>();
         public List<Dish> Dishes { get; set; } = new List<Dish>();
+        public List<Product> Products { get; set; } = new List<Product>();
 
     }
 }
