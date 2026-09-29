@@ -7,7 +7,7 @@ namespace FatOrFit
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +23,70 @@ namespace FatOrFit
             builder.Services.AddDefaultIdentity<UserProfile>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            static async Task CreateRolesAsync(IServiceProvider serviceProvider)
+            {
+                var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                string[] roles = { "Admin", "User" };
+
+                foreach(var role in roles)
+                {
+                    if(!await roleManager.RoleExistsAsync(role))
+                    {
+                        await roleManager.CreateAsync(new IdentityRole(role));
+                    }
+                }
+
+            }
+
+            static async Task CreateAdminAsync(IServiceProvider serviceProvider)
+            {
+                var userManager = serviceProvider.GetRequiredService<UserManager<UserProfile>>();
+
+                string adminEmail = "adminfatorfit_1@gmail.com";
+                string adminPassword = "Admin123456!";
+
+                var admin = await userManager.FindByEmailAsync(adminEmail);
+
+                if (admin == null)
+                {
+                    admin = new UserProfile
+                    {
+                        UserName = adminEmail,
+                        Email = adminEmail,
+                        EmailConfirmed = true
+                    };
+
+                    var result = await userManager.CreateAsync(admin, adminPassword);
+
+                    if (!result.Succeeded)
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            Console.WriteLine($"Admin creation error: {error.Description}");
+                        }
+
+                        return;
+                    }
+                   
+
+                    if(!await userManager.IsInRoleAsync(admin, "Admin"))
+                    {
+                        var roleResult = await userManager.AddToRoleAsync(admin, "Admin");
+
+                        if (!roleResult.Succeeded)
+                        {
+                            foreach (var error in roleResult.Errors)
+                            {
+                                Console.WriteLine($"Admin creation error: {error.Description}");
+                            }
+                        }
+                    }
+
+
+                }
+            }
+
             
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
@@ -54,6 +118,12 @@ namespace FatOrFit
                 .WithStaticAssets();
             app.MapRazorPages()
                .WithStaticAssets();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                await CreateRolesAsync(scope.ServiceProvider);
+                await CreateAdminAsync(scope.ServiceProvider);
+            }
 
             app.Run();
         }
