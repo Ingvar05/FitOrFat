@@ -42,7 +42,7 @@ namespace FatOrFit.Models
         }
         [Range(1.0, 2.5)]
         public double UserActivityLevel { get; set; }
-
+        public bool IsProfileCompleted { get; set; } = false;
         public List<Weight> Weights { get; set; } = new List<Weight>();
         public List<Daybook> Daybooks { get; set; } = new List<Daybook>();
         public List<Dish> Dishes { get; set; } = new List<Dish>();
