@@ -1,0 +1,64 @@
+﻿@model FatOrFit.ViewModes.ProfileEditViewModel
+
+@{
+    ViewData["Title"] = "Редактирование профиля";
+}
+
+<h1>Редактирование профиля</h1>
+
+<form asp-action="Edit" method="post">
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Height" class="form-label"></label>
+        <input asp-for="Height" class="form-control" />
+        <span asp-validation-for="Height" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="BirthDate" class="form-label"></label>
+        <input asp-for="BirthDate" class="form-control" />
+        <span asp-validation-for="BirthDate" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="UserGender" class="form-label"></label>
+        <select asp-for="UserGender"
+                asp-items="Html.GetEnumSelectList<FatOrFit.Models.UserProfile.Gender>()"
+                class="form-select">
+        </select>
+        <span asp-validation-for="UserGender" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="UserPurpose" class="form-label"></label>
+        <select asp-for="UserPurpose"
+                asp-items="Html.GetEnumSelectList<FatOrFit.Models.UserProfile.Purpose>()"
+                class="form-select">
+        </select>
+        <span asp-validation-for="UserPurpose" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="UserActivityLevel" class="form-label"></label>
+        <select asp-for="UserActivityLevel"
+                asp-items="Html.GetEnumSelectList<FatOrFit.Models.UserProfile.ActivityLevel>()"
+                class="form-select">
+        </select>
+        <span asp-validation-for="UserActivityLevel" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Сохранить
+    </button>
+
+    <a asp-action="Index" class="btn btn-secondary">
+        Отмена
+    </a>
+
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

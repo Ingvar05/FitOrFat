@@ -1,0 +1,20 @@
+﻿@model FatOrFit.Models.UserProfile
+
+@{
+    ViewData["Title"] = "Профиль";
+}
+
+<h1>Профиль</h1>
+
+<p><strong>Email:</strong> @Model.Email</p>
+<p><strong>Рост:</strong> @Model.Height</p>
+<p><strong>Дата рождения:</strong> @Model.BirthDate</p>
+<p><strong>Возраст:</strong> @Model.FullAge</p>
+<p><strong>Пол:</strong> @Html.DisplayFor(model => model.UserGender)</p>
+<p><strong>Цель:</strong> @Html.DisplayFor(model => model.UserPurpose)</p>
+<p><strong>Активность:</strong> @Html.DisplayFor(model => model.UserActivityLevel)</p>
+
+
+<a asp-action="Edit" class="btn btn-primary">
+    Редактировать профиль
+</a>
